@@ -1,7 +1,15 @@
 <?php 
 
+session_start();
 require "includes/header.php"; 
 require "includes/sidebar.php"; 
+
+require "../vendor/autoload.php";
+
+use App\Models\Cliente;
+$lista_clientes = new Cliente();
+
+
 ?>
         
 <main>
@@ -13,6 +21,18 @@ require "includes/sidebar.php";
         </ol>
         <div class="card mb-4">
             <div class="card-header"><a class="btn btn-primary" href="add-cliente.php">Adicionar novo cliente</a></div>
+            <?php if(isset($_SESSION['success'])): ?>
+                <p class="alert alert-success"><?=$_SESSION['success']?></p>  
+            <?php 
+                unset($_SESSION['success']);
+                endif; 
+            ?>
+            <?php if(isset($_SESSION['danger'])): ?>
+                <p class="alert alert-danger"><?=$_SESSION['danger']?></p>  
+            <?php 
+                unset($_SESSION['danger']);
+                endif; 
+            ?>
             <div class="card-body">
                 <div class="table-responsive">
                     <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
@@ -23,7 +43,7 @@ require "includes/sidebar.php";
                                 <th>E-mail</th>
                                 <th>CPF/CNPJ</th>
                                 <th>Editar</th>
-
+                                <th>Deletar</th>
                             </tr>
                         </thead>
                         <tfoot>
@@ -33,24 +53,32 @@ require "includes/sidebar.php";
                                 <th>E-mail</th>
                                 <th>CPF/CNPJ</th>
                                 <th>Editar</th>
-
+                                <th>Deletar</th>
                             </tr>
                         </tfoot>
                         <tbody>
-                            <tr>
-                                <td>01</td>
-                                <td>Tiger Nixon</td>
-                                <td>System Architect</td>
-                                <td>Edinburgh</td>
-                                <td><a href="#!" class="btn btn-warning">Editar</a></td>
-                            </tr>
-                            <tr>
-                                <td>01</td>
-                                <td>Garrett Winters</td>
-                                <td>Accountant</td>
-                                <td>Tokyo</td>
-                                <td><a href="#!" class="btn btn-warning">Editar</a></td>
-                            </tr>                                            
+                            <?php 
+                                foreach($lista_clientes->lista_clientes() as $cliente) :
+                            ?>
+                                <tr>
+                                    <td><?=$cliente->id_cliente;?></td>
+                                    <td><?=$cliente->nome_cliente;?></td>
+                                    <td><?=$cliente->email_cliente;?></td>
+                                    <td><?=$cliente->cpf_cliente;?></td>
+                                    <td>
+                                        <form action="editar-cliente.php" method="POST">
+                                            <input type="hidden" name="id_cliente" value="<?=$cliente->id_cliente;?>">
+                                            <button class="btn btn-warning">Editar</button>
+                                        </form>
+                                    </td>
+                                    <td>
+                                        <form action="Controllers/DeletarClienteController.php" method="POST" onsubmit="return confirm('Deseja realmente excluir esse cliente?');">
+                                            <input type="hidden" name="id_cliente" value="<?=$cliente->id_cliente;?>">
+                                            <button class="btn btn-danger" >Deletar</button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            <?php endforeach; ?>                                            
                         </tbody>
                     </table>
                 </div>
