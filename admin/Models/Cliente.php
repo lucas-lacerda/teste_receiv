@@ -31,7 +31,6 @@ class Cliente {
 
     public function setNome($nome) 
     {
-        $nome = filter_var($nome, FILTER_SANITIZE_STRING);
         $this->nome = $nome;
     }
     public function getNome()
@@ -51,7 +50,10 @@ class Cliente {
 
     public function setDataNasc($data_nascimento) 
     {
-        $this->data_nascimento = $data_nascimento;
+        $data_nasc = explode('/', $data_nascimento);
+        $data_nasc = $data_nasc[2]."-".$data_nasc[1]."-".$data_nasc[0];
+
+        $this->data_nascimento = $data_nasc;
     }
     public function getDataNasc()
     {
@@ -60,7 +62,11 @@ class Cliente {
 
     public function setTelefone($telefone)
     {
-        $this->telefone = $telefone;
+        $telSemParentE = explode('(', $telefone);
+        $telSemParentD = explode(') ', $telSemParentE[1]);
+        $telSemTraco = explode('-', $telSemParentD[1]);
+        $tel = $telSemParentE[0].$telSemParentD[0].$telSemTraco[0].$telSemTraco[1];
+        $this->telefone = $tel;
     }
     public function getTelefone()
     {
@@ -78,7 +84,17 @@ class Cliente {
 
     public function setCPF($cpf)
     {
-        $this->cpf = $cpf;
+        $cpf = explode('.', $cpf);
+        $cpf2 = explode('-', $cpf[2] );
+        $cpfFinal = $cpf[0].$cpf[1].$cpf2[0].$cpf2[1];
+
+        if ($cpfFinal == '') {
+            $this->cpf = NULL;
+        } else {
+            $this->cpf = $cpfFinal;
+        }
+
+        
     }
     public function getCPF()
     {
@@ -87,7 +103,16 @@ class Cliente {
 
     public function setCNPJ($cnpj)
     {
-        $this->cnpj = $cnpj;
+        $cnpjSemPonto = explode('.', $cnpj);
+        $cnpjSemBarra = explode('/', $cnpjSemPonto[2]);
+        $cnpjSemTraco = explode('-', $cnpjSemBarra[1]);
+        $cnpjFinal = $cnpjSemPonto[0].$cnpjSemPonto[1].$cnpjSemBarra[0].$cnpjSemTraco[0].$cnpjSemTraco[1];
+
+        if ($cnpjFinal == '') {
+            $this->cnpj = NULL;
+        } else {
+            $this->cnpj = $cnpjFinal;
+        }
     }
     public function getCNPJ()
     {

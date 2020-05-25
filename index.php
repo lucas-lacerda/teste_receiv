@@ -18,27 +18,41 @@
                         <div class="row justify-content-center">
                             <div class="col-lg-5">
                                 <div class="card shadow-lg border-0 rounded-lg mt-5">
-                                    <div class="card-header"><h3 class="text-center font-weight-light my-4">Login</h3></div>
+                                    <div class="card-header"><h3 class="text-center font-weight-light my-4">Sistema de Devedores</h3></div>
+                                    <?php session_start();?>
+                                    <?php if(isset($_SESSION['success'])): ?>
+                                        <p class="alert alert-success"><?=$_SESSION['success']?></p>  
+                                    <?php 
+                                        unset($_SESSION['success']);
+                                        endif; 
+                                    ?>
+                                    <?php if(isset($_SESSION['danger'])): ?>
+                                        <p class="alert alert-danger"><?=$_SESSION['danger']?></p>  
+                                    <?php 
+                                        unset($_SESSION['danger']);
+                                        endif; 
+                                    ?>
                                     <div class="card-body">
-                                        <form>
-                                            <div class="form-group"><label class="small mb-1" for="inputEmailAddress">Email</label><input class="form-control py-4" id="inputEmailAddress" type="email" placeholder="Enter email address" /></div>
-                                            <div class="form-group"><label class="small mb-1" for="inputPassword">Password</label><input class="form-control py-4" id="inputPassword" type="password" placeholder="Enter password" /></div>
-                                            <div class="form-group">
-                                                <div class="custom-control custom-checkbox"><input class="custom-control-input" id="rememberPasswordCheck" type="checkbox" /><label class="custom-control-label" for="rememberPasswordCheck">Remember password</label></div>
+                                    
+                                        <form action="admin/Controllers/LogarController.php" method="post">
+                                            <div class="form-group"><label class="small mb-1" for="inputEmailAddress">Email</label><input class="form-control py-4" id="inputEmailAddress" type="email" name="email" placeholder="Enter email address" /></div>
+                                            <div class="form-group"><label class="small mb-1" for="inputPassword">Senha</label><input class="form-control py-4" id="inputPassword" type="password" name="senha" placeholder="Enter password" /></div>
+                                            
+                                            <div class=" mt-4 mb-0 text-center">
+                                            <button class="btn btn-primary" href="admin/index.php">Login</button>
                                             </div>
-                                            <div class="form-group d-flex align-items-center justify-content-between mt-4 mb-0"><a class="small" href="assets/password.html">Forgot Password?</a><a class="btn btn-primary" href="admin/index.php">Login</a></div>
                                         </form>
                                     </div>
-                                    <div class="card-footer text-center">
+                                    <!-- <div class="card-footer text-center">
                                         <div class="small"><a href="admin/register.html">Need an account? Sign up!</a></div>
-                                    </div>
+                                    </div> -->
                                 </div>
                             </div>
                         </div>
                     </div>
                 </main>
             </div>
-            <div id="layoutAuthentication_footer">
+            <!-- <div id="layoutAuthentication_footer">
                 <footer class="py-4 bg-light mt-auto">
                     <div class="container-fluid">
                         <div class="d-flex align-items-center justify-content-between small">
@@ -51,7 +65,7 @@
                         </div>
                     </div>
                 </footer>
-            </div>
+            </div> -->
         </div>
         <script src="https://code.jquery.com/jquery-3.4.1.min.js" crossorigin="anonymous"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>

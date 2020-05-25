@@ -1,6 +1,10 @@
 <?php 
 
 session_start();
+if (!isset($_SESSION['email'])) {
+    $_SESSION['danger'] = "Usuario ou senha incorreto";
+    header('Location:../index.php');
+}
 require "includes/header.php"; 
 require "includes/sidebar.php"; 
 
@@ -18,7 +22,7 @@ $cliente = $cliente->seleciona_cliente( $cliente->getId() );
     <div class="container-fluid">
         <h1 class="mt-4">Editar Cliente</h1>
         <ol class="breadcrumb mb-4">
-            <li class="breadcrumb-item"><a href="index.html">Dashboard</a></li>
+            <li class="breadcrumb-item"><a href="index.php">Dashboard</a></li>
             <li class="breadcrumb-item active">Editar Cliente</li>
         </ol>
         <div class="row">
@@ -27,7 +31,10 @@ $cliente = $cliente->seleciona_cliente( $cliente->getId() );
                     <div class="form-group">
 
                         <?php 
-                        foreach ($cliente as $dados) : ?>
+                        foreach ($cliente as $dados) : 
+                            $data = explode('-', $dados->dataNasc_cliente);
+                            $data = $data[2].$data[1].$data[0];
+                        ?>
 
                         <input type="hidden" name="id" value="<?=$dados->id_cliente;?>">
 

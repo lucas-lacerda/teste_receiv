@@ -1,6 +1,10 @@
 <?php 
 
 session_start();
+if (!isset($_SESSION['email'])) {
+    $_SESSION['danger'] = "Usuario ou senha incorreto";
+    header('Location:../index.php');
+}
 require "includes/header.php"; 
 require "includes/sidebar.php"; 
 
@@ -15,7 +19,7 @@ $lista_clientes = new Cliente();
     <div class="container-fluid">
         <h1 class="mt-4">Todos os Devedores</h1>
         <ol class="breadcrumb mb-4">
-            <li class="breadcrumb-item"><a href="index.html">Dashboard</a></li>
+            <li class="breadcrumb-item"><a href="index.php">Dashboard</a></li>
             <li class="breadcrumb-item active">Todos os Devedores</li>
         </ol>
         <div class="card mb-4">
@@ -62,7 +66,15 @@ $lista_clientes = new Cliente();
                                     <td><?=$cliente->id_cliente;?></td>
                                     <td><?=$cliente->nome_cliente;?></td>
                                     <td><?=$cliente->email_cliente;?></td>
-                                    <td><?=$cliente->cpf_cliente;?></td>
+                                    <td>
+                                        <?php 
+                                        if($cliente->cpf_cliente == Null){
+                                           echo $cliente->cnpj_cliente;
+                                        } elseif($cliente->cnpj_cliente == Null) {
+                                            echo $cliente->cpf_cliente;
+                                        }   
+                                        ?>    
+                                    </td>
                                     <td>
                                         <form action="detalhes-divida.php" method="POST">
                                             <input type="hidden" name="id_cliente" value="<?=$cliente->id_cliente;?>">
@@ -72,7 +84,8 @@ $lista_clientes = new Cliente();
                                     <td>
                                         <form action="add-divida.php" method="POST">
                                             <input type="hidden" name="id_cliente" value="<?=$cliente->id_cliente;?>">
-                                            <button class="btn btn-dark">Add Pendência</button>
+                                            <input type="hidden" name="cpf_cliente" value="<?=$cliente->cpf_cliente;?>">
+                                            <button class="btn btn-dark">+ Pendência</button>
                                         </form>
                                     </td>
                                 </tr>

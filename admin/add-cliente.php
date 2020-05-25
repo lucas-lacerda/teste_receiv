@@ -1,8 +1,15 @@
 <?php 
 
 session_start();
+if (!isset($_SESSION['email'])) {
+    $_SESSION['danger'] = "Usuario ou senha incorreto";
+    header('Location:../index.php');
+}
+
 require "includes/header.php"; 
 require "includes/sidebar.php"; 
+
+
 
 ?>
         
@@ -10,7 +17,7 @@ require "includes/sidebar.php";
     <div class="container-fluid">
         <h1 class="mt-4">Adicionar Novo Cliente</h1>
         <ol class="breadcrumb mb-4">
-            <li class="breadcrumb-item"><a href="index.html">Dashboard</a></li>
+            <li class="breadcrumb-item"><a href="index.php">Dashboard</a></li>
             <li class="breadcrumb-item active">Novo cliente</li>
         </ol>
         <div class="row">
