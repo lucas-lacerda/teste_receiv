@@ -268,9 +268,20 @@ class Cliente {
     {
         try {
             
+            echo $id . "<br><br>";
+
+            $dividas = $this->conexao()->select('SELECT * FROM dividas');
+            
+            foreach ($dividas as $d){
+                if($d->id_cliente == $id){
+                    $divida = $this->conexao()->delete('dividas', 'id_cliente='.$id);
+                }
+            }
+
             $cliente = $this->conexao()->delete('clientes', 'id_cliente='.$id);
+
             session_start();
-            if ($cliente) {
+            if ($divida == true && $cliente == true) {
                 $_SESSION['success'] = "Cliente Deletado Com Sucesso!!";
                 header('Location:../listar-clientes.php');
             }else {
@@ -279,7 +290,7 @@ class Cliente {
             }
 
         } catch (Exception $e) {
-            echo $e->getMessege();
+            echo "teste<br><br>". $e->getMessege();
         }
         
     }
