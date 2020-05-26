@@ -37,7 +37,7 @@ $total = 0;
                             <p><b>Nome:</b> <?=$dado->nome_cliente;?></p>
                             <p><b>E-mail:</b> <?=$dado->email_cliente;?></p>
                             <p><b>Telefone:</b> <?=$dado->telefone_cliente;?></p>
-                            <p><b>CEP:</b> <?=$dado->email_cliente;?></p>
+                            <p><b>CEP:</b> <?=$dado->cep_cliente;?></p>
                         </div>
                         <div class="col-md-4">
                             <p><b>CPF:</b> <?=$dado->cpf_cliente;?></p>
